@@ -1,6 +1,6 @@
 # Scout Certificate of Achievement
 
-A one-page static website where anyone can fill in the hand-drawn Scout Certificate of Achievement and download a print-ready letter-size PDF. The PDF is built in the visitor's browser with pdf-lib; there is no server code, database, or account.
+A one-page static website where anyone can fill in the classic-style Scout Certificate of Achievement and download a print-ready letter-size PDF. The PDF is built in the visitor's browser with pdf-lib; there is no server code, database, or account.
 
 ## Files
 
