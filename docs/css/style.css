@@ -1,0 +1,191 @@
+/* Palette: Scouting America brand primaries (tan, red, blue, gray) plus a
+   forest green drawn from the certificate's foliage. */
+:root {
+  --tan: #D6CEBD;
+  --tan-light: #EFEBE2;
+  --tan-dark: #AD9D7B;
+  --red: #CE1126;
+  --blue: #003F87;
+  --gray: #515354;
+  --gray-dark: #232528;
+  --green: #3D5A3A;
+  --green-dark: #2B4029;
+  --white: #FFFFFF;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--gray-dark);
+  background: var(--tan-light);
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+h1, h2, legend { font-family: "Playfair Display", Georgia, serif; }
+
+/* Header */
+.site-header {
+  background: var(--green);
+  color: var(--white);
+  padding: 34px 0 30px;
+  border-bottom: 6px solid var(--tan-dark);
+  box-shadow: inset 0 -2px 0 var(--red);
+}
+.site-header h1 { margin: 0 0 8px; font-size: clamp(28px, 4.5vw, 44px); line-height: 1.1; }
+.kicker {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tan);
+}
+.lede { margin: 0; max-width: 46em; color: var(--tan-light); }
+
+/* Maker layout */
+.maker {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(320px, 1.05fr);
+  gap: 28px;
+  margin-top: 28px;
+  align-items: start;
+}
+.maker > * { min-width: 0; }
+@media (max-width: 860px) {
+  .maker { grid-template-columns: 1fr; }
+  .preview-panel { order: -1; }
+}
+
+.panel {
+  background: var(--white);
+  border: 1px solid var(--tan);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+
+/* Form */
+fieldset { border: 0; margin: 0 0 18px; padding: 0; }
+legend {
+  font-size: 20px;
+  color: var(--green);
+  margin-bottom: 8px;
+  padding: 0;
+}
+legend small { font-family: "Source Sans 3", sans-serif; font-size: 14px; color: var(--gray); }
+
+label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 10px; }
+label small { font-weight: 400; color: var(--gray); }
+
+input[type=text], textarea {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 10px;
+  font: inherit;
+  font-weight: 400;
+  color: var(--gray-dark);
+  background: #FCFBF8;
+  border: 1px solid var(--tan-dark);
+  border-radius: 4px;
+}
+textarea { resize: vertical; }
+input[type=text]:focus, textarea:focus {
+  outline: 2px solid var(--blue);
+  outline-offset: 0;
+  border-color: var(--blue);
+}
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+@media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+
+/* Choice pills */
+.choice-row, .inline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.inline > span { font-weight: 600; font-size: 15px; margin-right: 4px; }
+.choice { margin: 0; font-weight: 600; }
+.choice input { position: absolute; opacity: 0; }
+.choice span {
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1px solid var(--tan-dark);
+  border-radius: 999px;
+  background: var(--tan-light);
+  cursor: pointer;
+}
+.choice.small span { padding: 3px 12px; font-size: 14px; }
+.choice input:checked + span { background: var(--green); border-color: var(--green); color: var(--white); }
+.choice input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.swatch-row { display: flex; gap: 10px; align-items: center; }
+.swatch-label { font-weight: 600; font-size: 15px; margin-right: 2px; }
+.swatch { margin: 0; }
+.swatch input { position: absolute; opacity: 0; }
+.swatch span {
+  display: block;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--c);
+  border: 3px solid var(--white);
+  box-shadow: 0 0 0 1px var(--tan-dark);
+  cursor: pointer;
+}
+.swatch input:checked + span { box-shadow: 0 0 0 3px var(--gray-dark); }
+.swatch input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+/* Buttons */
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.btn {
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.btn.primary { background: var(--red); color: var(--white); font-size: 18px; padding: 12px 26px; }
+.btn.primary:hover:not(:disabled) { background: #A90E1F; }
+.btn.primary:disabled { opacity: .55; cursor: wait; }
+.btn.ghost { background: var(--white); color: var(--green); border-color: var(--green); padding: 7px 14px; }
+.btn.ghost:hover { background: var(--tan-light); }
+.btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.status { min-height: 1.5em; margin: 10px 0 0; font-size: 15px; color: var(--gray); }
+.status.error { color: var(--red); font-weight: 600; }
+
+/* Preview */
+.preview-panel { position: sticky; top: 16px; background: var(--tan); border-color: var(--tan-dark); }
+@media (max-width: 860px) { .preview-panel { position: static; } }
+.preview-frame { background: var(--white); box-shadow: 0 2px 10px rgba(35, 37, 40, .25); }
+#preview { display: block; width: 100%; height: auto; }
+.hint { margin: 10px 0 0; font-size: 14px; color: var(--gray-dark); }
+
+/* Uses */
+.uses { margin-top: 40px; }
+.uses h2 { color: var(--green); font-size: 26px; margin: 0 0 8px; }
+.uses p { margin: 0; max-width: 60em; }
+
+/* Info */
+.info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+@media (max-width: 860px) { .info { grid-template-columns: 1fr; gap: 6px; } }
+.info h2 { color: var(--green); font-size: 22px; margin: 0 0 6px; border-bottom: 2px solid var(--tan-dark); padding-bottom: 4px; }
+.info p { margin: 0; }
+
+/* Footer */
+.site-footer {
+  background: var(--gray-dark);
+  color: var(--tan);
+  font-size: 14px;
+  padding: 18px 0;
+}
+.site-footer p { margin: 4px 0; }
