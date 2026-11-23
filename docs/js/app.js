@@ -98,7 +98,7 @@
 
   function exampleValues() {
     return {
-      style: 'classic', accent: 'red', align: 'justify',
+      style: 'classic', accent: 'red', align: 'center',
       presenter: 'Troop 123\nAnytown, USA',
       presents: 'Proudly Presents',
       name: 'Jordan Rivera',
@@ -158,15 +158,49 @@
 
   // ---------- layout ----------
 
-  function wrap(text, key, size, maxW, measure) {
+  // US English hyphenation (hyphen package, loaded as a classic script).
+  // Falls back to no hyphenation if the script did not load.
+  const hyphenateWord = (window.createHyphenator && window.hyphenationPatternsEnUs)
+    ? window.createHyphenator(window.hyphenationPatternsEnUs, { html: false })
+    : null;
+
+  // Ways to split a word across lines, longest first part first:
+  // after a hard hyphen, or at a dictionary syllable break (adds "-").
+  // Capitalized words (names) and words with digits are never split.
+  function breakPoints(word) {
+    const out = [];
+    for (let i = word.length - 2; i > 1; i--) {
+      if (word[i] === '-') out.push([word.slice(0, i + 1), word.slice(i + 1)]);
+    }
+    if (hyphenateWord && /^[a-z]/.test(word) && !/\d/.test(word) && !word.includes('-')) {
+      const parts = hyphenateWord(word).split(String.fromCharCode(0xAD));
+      for (let k = parts.length - 1; k > 0; k--) {
+        out.push([parts.slice(0, k).join('') + '-', parts.slice(k).join('')]);
+      }
+    }
+    return out;
+  }
+
+  function wrap(text, key, size, maxW, measure, hyphenate) {
     const words = text.split(/\s+/).filter(Boolean);
     const lines = [];
     let cur = [];
     const width = ws => measure(ws.join(' '), key, size);
-    words.forEach(w => {
-      if (cur.length && width(cur.concat(w)) > maxW) { lines.push(cur); cur = [w]; }
-      else cur.push(w);
-    });
+    for (let n = 0; n < words.length; n++) {
+      const w = words[n];
+      if (!cur.length || width(cur.concat(w)) <= maxW) { cur.push(w); continue; }
+      if (hyphenate) {
+        const fit = breakPoints(w).find(([head]) => width(cur.concat(head)) <= maxW);
+        if (fit) {
+          lines.push(cur.concat(fit[0]));
+          cur = [];
+          words.splice(n + 1, 0, fit[1]); // the rest of the word starts the next line
+          continue;
+        }
+      }
+      lines.push(cur);
+      cur = [w];
+    }
     if (cur.length) lines.push(cur);
     return lines;
   }
@@ -232,7 +266,7 @@
         b.text.split('\n').forEach(raw => {
           const txt = T(b.font, raw);
           if (!txt) { if (b.para) lines.push({ blank: true }); return; }
-          const wl = wrap(txt, b.font, size, maxW, measure);
+          const wl = wrap(txt, b.font, size, maxW, measure, b.para && f.align === 'justify');
           wl.forEach((words, i) => lines.push({ words, last: i === wl.length - 1 }));
         });
         const gap = b.gap * scale;
@@ -399,7 +433,7 @@
     schedulePreview();
   });
   document.getElementById('clear-btn').addEventListener('click', () => {
-    writeForm({ style: readForm().style, accent: readForm().accent, align: 'justify', date: todayLine() });
+    writeForm({ style: readForm().style, accent: readForm().accent, align: 'center', date: todayLine() });
     try { localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ }
     schedulePreview();
   });
