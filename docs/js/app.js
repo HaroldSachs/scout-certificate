@@ -375,6 +375,11 @@
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 30000);
       setStatus('PDF downloaded. Print at 100% (actual size) on letter paper.');
+      // Anonymous download count (GoatCounter). Sends only the lettering style, never form text.
+      const style = readForm().style;
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: 'download-pdf-' + style, title: 'PDF downloaded (' + style + ')', event: true });
+      }
     } catch (err) {
       console.error(err);
       setStatus('Sorry, the PDF could not be built: ' + err.message, true);
