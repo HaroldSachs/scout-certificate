@@ -46,7 +46,7 @@
 
 <header class="site-header">
   <div class="wrap">
-    <p class="kicker">Free for every Scout unit</p>
+    <p class="kicker">Free for every troop, pack, crew and ship</p>
     <h1>Scout Certificate of Achievement</h1>
     <p class="lede">Fill in the blanks, check the preview, and download a print-ready PDF on letter paper. No account needed!</p>
   </div>
@@ -55,7 +55,7 @@
 <main class="wrap maker">
   <form id="cert-form" class="panel form-panel" autocomplete="off" onsubmit="return false">
     <fieldset>
-      <legend>Look</legend>
+      <legend>Style</legend>
       <div class="choice-row" role="radiogroup" aria-label="Lettering style">
         <label class="choice"><input type="radio" name="style" value="classic" checked><span>Classic</span></label>
         <label class="choice"><input type="radio" name="style" value="script"><span>Script</span></label>
@@ -63,23 +63,24 @@
       </div>
       <div class="swatch-row" role="radiogroup" aria-label="Accent color for name and title">
         <span class="swatch-label">Accent</span>
-        <label class="swatch" title="Scouting Red"><input type="radio" name="accent" value="red" checked><span style="--c:#CE1126"></span></label>
-        <label class="swatch" title="Scouting Blue"><input type="radio" name="accent" value="blue"><span style="--c:#003F87"></span></label>
-        <label class="swatch" title="Forest Green"><input type="radio" name="accent" value="green"><span style="--c:#3D5A3A"></span></label>
-        <label class="swatch" title="Dark Gray"><input type="radio" name="accent" value="gray"><span style="--c:#232528"></span></label>
+        <label class="swatch"><input type="radio" name="accent" value="red" checked><span class="dot" style="--c:#CE1126"></span><span class="name">Scouts BSA<br>Red</span></label>
+        <label class="swatch"><input type="radio" name="accent" value="blue"><span class="dot" style="--c:#003F87"></span><span class="name">Cub Scout<br>Blue</span></label>
+        <label class="swatch"><input type="radio" name="accent" value="green"><span class="dot" style="--c:#3D5A3A"></span><span class="name">Venturing<br>Green</span></label>
+        <label class="swatch"><input type="radio" name="accent" value="navy"><span class="dot" style="--c:#14284B"></span><span class="name">Sea Scout<br>Navy</span></label>
+        <label class="swatch"><input type="radio" name="accent" value="gray"><span class="dot" style="--c:#232528"></span><span class="name">Classic<br>Gray</span></label>
       </div>
     </fieldset>
 
     <fieldset>
-      <legend>Who is presenting</legend>
-      <label>Unit or organization <small>(Enter starts a second line)</small>
+      <legend>Who’s giving it</legend>
+      <label>Unit or organization <small>(press Enter for a second line)</small>
         <textarea name="presenter" rows="2" placeholder="Troop 123&#10;Anytown, USA"></textarea></label>
       <label>Presentation words
         <input name="presents" type="text" placeholder="Proudly Presents"></label>
     </fieldset>
 
     <fieldset>
-      <legend>Who is receiving</legend>
+      <legend>Who’s receiving it</legend>
       <label>Name
         <input name="name" type="text" placeholder="Jordan Rivera"></label>
       <label>Rank, role, or second line <small>(optional)</small>
@@ -90,9 +91,23 @@
       <legend>The award</legend>
       <label>Joining words <small>(optional)</small>
         <input name="connector" type="text" placeholder="With This"></label>
+      <label>Award type <small>(fills in a title and wording you can change)</small>
+        <select id="sample-select">
+          <option value="">Choose a starting point…</option>
+          <option value="eagle">Eagle Scout</option>
+          <option value="rank">Rank advancement</option>
+          <option value="aol">Arrow of Light</option>
+          <option value="meritbadge">Merit badges</option>
+          <option value="leadership">Youth leadership</option>
+          <option value="service">Service project</option>
+          <option value="camp">Summer camp</option>
+          <option value="seascouts">Sea Scouts</option>
+          <option value="venturing">Venturing</option>
+          <option value="volunteer">Thank you to an adult volunteer</option>
+        </select></label>
       <label>Certificate title
         <input name="title" type="text" placeholder="Certificate of Achievement"></label>
-      <label>Citation <small>(optional; a blank line starts a new paragraph)</small>
+      <label>Citation <small>(leave a blank line to start a new paragraph)</small>
         <textarea name="body" rows="6" placeholder="In recognition of..."></textarea></label>
       <div class="inline">
         <span>Citation alignment</span>
@@ -104,7 +119,7 @@
     </fieldset>
 
     <fieldset>
-      <legend>Signatures <small>(leave both blank for none)</small></legend>
+      <legend>Signatures <small>(leave these blank if you don’t want signature lines)</small></legend>
       <div class="two-col">
         <label>Left name <input name="sig1Name" type="text" placeholder="Pat Morgan"></label>
         <label>Left title <input name="sig1Title" type="text" placeholder="Scoutmaster"></label>
@@ -125,34 +140,34 @@
     <div class="preview-frame">
       <canvas id="preview" width="1275" height="1650" aria-label="Live preview of the certificate"></canvas>
     </div>
-    <p class="hint">Text shrinks automatically to fit inside the border. Print at 100% / actual size on 8.5 × 11 paper.</p>
+    <p class="hint">The lettering shrinks on its own to fit inside the border. When you print, choose “Actual size” on regular 8½ × 11 paper.</p>
   </section>
 </main>
 
 <section class="wrap uses">
-  <h2>Made for every kind of Scouting recognition</h2>
-  <p>Leaders use this certificate for Eagle Scout courts of honor, rank advancement, Arrow of Light and Cub Scout awards, merit badge and service project milestones, summer camp honors, and thanking Scoutmasters, den leaders, committee members, and parent volunteers. It works for Scouts BSA troops, Cub Scout packs, Venturing crews, Sea Scout ships, districts, and councils.</p>
+  <h2>Good for just about any Scouting award</h2>
+  <p>Use it for an Eagle Scout court of honor, a rank advancement, the Arrow of Light, merit badges, a service project, or a great week at summer camp. It’s also a nice way to thank the Scoutmaster, den leader, committee member or parent who always shows up. Troops, packs, Venturing crews and Sea Scout ships are all welcome to use it.</p>
 </section>
 
 <section class="wrap info">
   <div class="info-col">
-    <h2>How to use it</h2>
-    <p>Type in the fields on the left and the preview updates as you go. When it looks right, press Download PDF and print it at home or take the file to a print shop. Heavy cream or parchment card stock (65 to 110 lb) shows off the artwork best. Leave the signature lines blank in the form if your leaders will sign by hand; the lines still print as long as a name or title is entered.</p>
+    <h2>Printing tips</h2>
+    <p>Fill in the form and watch the certificate change as you type. When you like it, hit Download PDF. It prints fine at home, but heavy cream or parchment card stock (65 to 110 lb) really makes the colors pop. Want your leaders to sign it by hand? Put their names and titles in the signature boxes, and they can sign right above the line at the ceremony.</p>
   </div>
   <div class="info-col">
     <h2>About the artwork</h2>
-    <p>The border is digital artwork by <strong>Harold Sachs</strong>, updating a classic 1950s Scout certificate design, and is shared free for recognizing Scouts, leaders, and volunteers. Please do not sell the artwork or certificates made from it.</p>
+    <p>I’m <strong>Harold Sachs</strong>, a digital artist. This border is my update of a classic 1950s Scout certificate, and I’m happy to share it with any unit, free. All I ask is that you don’t sell the artwork or certificates made from it.</p>
   </div>
   <div class="info-col">
-    <h2>Your privacy</h2>
-    <p>The PDF is built inside your web browser. Names and citations are never uploaded or stored on a server. Your last entries are kept only in this browser so a refresh does not erase your work; Clear removes them. Visits and downloads are counted anonymously, without cookies.</p>
+    <h2>Your information stays with you</h2>
+    <p>Your certificate is made right in your web browser, so the names you type never leave your computer. The page remembers what you typed last, so you can come back and finish later, and the Clear button wipes it. I keep a simple count of visits and downloads, with no cookies and nothing personal, just so I know people are enjoying it.</p>
   </div>
 </section>
 
 <footer class="site-footer">
   <div class="wrap">
-    <p>Artwork © 2024 Harold Sachs. All rights reserved; free use as described above.</p>
-    <p>An independent volunteer project, not affiliated with or endorsed by Scouting America. The Scouting America name and emblems are trademarks of Scouting America.</p>
+    <p>Artwork © 2024 Harold Sachs. Free to use for recognizing Scouts and the adults who help them.</p>
+    <p>I made this on my own as a volunteer. It isn’t an official Scouting America site, and Scouting America hasn’t endorsed it. The Scouting America name and emblems belong to Scouting America.</p>
   </div>
 </footer>
 

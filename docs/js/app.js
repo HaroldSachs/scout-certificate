@@ -15,7 +15,7 @@
   const CENTER_X = (BOX.left + BOX.right) / 2;
   const SIG_LINE_Y = 676;
 
-  const COLORS = { gray: '#232528', red: '#CE1126', blue: '#003F87', green: '#3D5A3A' };
+  const COLORS = { gray: '#232528', red: '#CE1126', blue: '#003F87', green: '#3D5A3A', navy: '#14284B' };
 
   const CDN = 'https://cdn.jsdelivr.net/fontsource/fonts/';
   const FONT_FILES = {
@@ -350,7 +350,7 @@
     ctx.lineWidth = 0.7;
     rules.forEach(r => { ctx.beginPath(); ctx.moveTo(r.x1, r.y); ctx.lineTo(r.x2, r.y); ctx.stroke(); });
 
-    setStatus(shrunk ? 'Long text: lettering was made smaller to fit. Shorten the citation for larger type.' : fontNote);
+    setStatus(shrunk ? 'That’s a lot of words, so the lettering got smaller to fit. Trim the citation a little for bigger type.' : fontNote);
   }
 
   function setStatus(msg, isError) {
@@ -395,7 +395,7 @@
 
   async function download() {
     downloadBtn.disabled = true;
-    setStatus('Building your PDF…');
+    setStatus('Making your PDF…');
     try {
       const { bytes, name } = await buildPdf();
       const blob = new Blob([bytes], { type: 'application/pdf' });
@@ -408,7 +408,7 @@
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 30000);
-      setStatus('PDF downloaded. Print at 100% (actual size) on letter paper.');
+      setStatus('Your PDF is ready! Print it at “Actual size” on letter paper.');
       // Anonymous download count (GoatCounter). Sends only the lettering style, never form text.
       const style = readForm().style;
       if (window.goatcounter && window.goatcounter.count) {
@@ -416,7 +416,7 @@
       }
     } catch (err) {
       console.error(err);
-      setStatus('Sorry, the PDF could not be built: ' + err.message, true);
+      setStatus('Sorry, something went wrong making your PDF. Please try again. (' + err.message + ')', true);
     } finally {
       downloadBtn.disabled = false;
     }
@@ -428,6 +428,48 @@
   form.addEventListener('change', schedulePreview);
   previewImg.addEventListener('load', schedulePreview);
   downloadBtn.addEventListener('click', download);
+  // Award types: certificate title plus sample citation. In the citation,
+  // {first} is the recipient's first name (or "This Scout"),
+  // {rank} the rank/role line (or "a new rank"). {first} only starts sentences.
+  const SAMPLES = {
+    eagle: { title: 'Certificate of Achievement', body: 'In recognition of earning the rank of Eagle Scout, the highest rank in Scouts BSA. {first} has shown leadership, service to others, and steady dedication on the trail to Eagle, and has set an example for every Scout who follows.\n\nCongratulations on this outstanding achievement.' },
+    rank: { title: 'Certificate of Achievement', body: 'In recognition of advancing to {rank}. {first} has learned new skills, taken on new responsibilities, and lived the Scout Oath and Law along the way.\n\nCongratulations, and keep climbing!' },
+    aol: { title: 'Certificate of Achievement', body: 'In recognition of earning the Arrow of Light, the highest award in Cub Scouting. {first} has learned new skills, done their best, and is ready for the adventures ahead in Scouts BSA.\n\nCongratulations on reaching this milestone.' },
+    meritbadge: { title: 'Certificate of Achievement', body: 'In recognition of outstanding effort in earning merit badges. {first} set goals, learned from expert counselors, and followed through on every requirement.\n\nWell done!' },
+    leadership: { title: 'Certificate of Achievement', body: 'In recognition of outstanding service as a youth leader. {first} planned and led the program, looked after the Scouts in their care, and showed what servant leadership looks like.\n\nThank you for leading by example.' },
+    service: { title: 'Certificate of Recognition', body: 'In recognition of outstanding service to the community. {first} gave time and hard work to help others and showed what it means to Do a Good Turn Daily.\n\nThank you for making a difference.' },
+    camp: { title: 'Certificate of Achievement', body: 'In recognition of an outstanding summer camp season. {first} took on every challenge, helped fellow Scouts, and brought a cheerful spirit to camp each day.\n\nCongratulations on a great summer.' },
+    seascouts: { title: 'Certificate of Achievement', body: 'In recognition of outstanding achievement in Sea Scouting. {first} has shown seamanship, leadership, and teamwork on and off the water, and has lived up to the Sea Scout Promise.\n\nFair winds and following seas.' },
+    venturing: { title: 'Certificate of Achievement', body: 'In recognition of outstanding achievement in Venturing. {first} has embraced adventure, leadership, and personal growth, and has been an example to fellow Venturers.\n\nCongratulations on this accomplishment.' },
+    volunteer: { title: 'Certificate of Appreciation', body: 'With sincere thanks for your dedicated service to our unit. Your time, patience, and example have made a lasting difference in the lives of our Scouts.\n\nThank you for all you do.' },
+  };
+
+  function sampleText(key) {
+    const f = readForm();
+    const first = f.name.trim().split(/\s+/)[0] || 'This Scout';
+    const rank = f.subtitle.trim() || 'a new rank';
+    return SAMPLES[key].body.replace(/\{first\}/g, first).replace(/\{rank\}/g, rank);
+  }
+
+  const sampleSelect = document.getElementById('sample-select');
+  sampleSelect.addEventListener('change', () => {
+    const key = sampleSelect.value;
+    sampleSelect.value = '';
+    if (!SAMPLES[key]) return;
+    const body = form.elements.body, title = form.elements.title;
+    const current = body.value.trim(), curTitle = title.value.trim();
+    const keys = Object.keys(SAMPLES);
+    const bodyUntouched = !current || current === exampleValues().body ||
+      keys.some(k => sampleText(k) === current);
+    const titleUntouched = !curTitle || curTitle === exampleValues().title ||
+      keys.some(k => SAMPLES[k].title === curTitle);
+    if (!(bodyUntouched && titleUntouched) &&
+        !window.confirm('Swap out the title and wording you wrote for this award’s wording?')) return;
+    title.value = SAMPLES[key].title;
+    body.value = sampleText(key);
+    schedulePreview();
+  });
+
   document.getElementById('example-btn').addEventListener('click', () => {
     writeForm(exampleValues());
     schedulePreview();
@@ -449,10 +491,10 @@
     measureFonts = await embedFonts(doc);
     downloadBtn.disabled = false;
     const missing = Object.keys(FONT_FILES).filter(k => !fontBytes[k]);
-    fontNote = missing.length ? 'Some lettering could not load; a standard font is being used instead.' : '';
+    fontNote = missing.length ? 'Some of the fancy lettering didn’t load, so a plain font is filling in for now.' : '';
     schedulePreview();
   })().catch(err => {
     console.error(err);
-    setStatus('The certificate maker could not start: ' + err.message, true);
+    setStatus('Sorry, the certificate maker didn’t start. Please reload the page. (' + err.message + ')', true);
   });
 })();
