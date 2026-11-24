@@ -158,6 +158,15 @@ input[type=text]:focus, textarea:focus {
 
 .status { min-height: 1.5em; margin: 10px 0 0; font-size: 15px; color: var(--gray); }
 .status.error { color: var(--red); font-weight: 600; }
+.print-tip {
+  margin: 10px 0 0;
+  padding: 10px 14px;
+  font-size: 15px;
+  background: var(--tan-light);
+  border-left: 4px solid var(--green);
+  border-radius: 4px;
+}
+.print-tip a, .info a { color: var(--green); font-weight: 600; }
 
 /* Preview */
 .preview-panel { position: sticky; top: 16px; background: var(--tan); border-color: var(--tan-dark); }
@@ -171,6 +180,26 @@ input[type=text]:focus, textarea:focus {
 .uses h2 { color: var(--green); font-size: 26px; margin: 0 0 8px; }
 .uses p { margin: 0; max-width: 60em; }
 
+/* Print service */
+.print-service {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 28px;
+  margin-top: 32px;
+  padding: 20px 24px;
+  background: var(--white);
+  border: 1px solid var(--tan);
+  border-left: 6px solid var(--green);
+  border-radius: var(--radius);
+}
+.print-service h2 { color: var(--green); font-size: 24px; margin: 0 0 4px; }
+.print-service p { margin: 0; }
+.print-service .print-note { margin-top: 6px; font-size: 14px; font-style: italic; color: var(--gray); }
+.btn.print-btn { background: var(--green); color: var(--white); text-decoration: none; white-space: nowrap; }
+.btn.print-btn:hover { background: var(--green-dark); }
+
 /* Info */
 .info {
   display: grid;
@@ -182,6 +211,21 @@ input[type=text]:focus, textarea:focus {
 @media (max-width: 860px) { .info { grid-template-columns: 1fr; gap: 6px; } }
 .info h2 { color: var(--green); font-size: 22px; margin: 0 0 6px; border-bottom: 2px solid var(--tan-dark); padding-bottom: 4px; }
 .info p { margin: 0; }
+
+/* Help form */
+.help { margin-bottom: 28px; }
+.help summary { cursor: pointer; font-weight: 600; color: var(--green); display: inline-block; }
+.help summary:hover { text-decoration: underline; }
+.help-form {
+  max-width: 520px;
+  margin-top: 12px;
+  padding: 16px 18px;
+  background: var(--white);
+  border: 1px solid var(--tan);
+  border-radius: var(--radius);
+}
+.btn.small-btn { font-size: 16px; padding: 8px 20px; }
+.botcheck { position: absolute; left: -9999px; }
 
 /* Footer */
 .site-footer {

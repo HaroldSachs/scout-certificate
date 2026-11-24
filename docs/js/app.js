@@ -409,6 +409,7 @@
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 30000);
       setStatus('Your PDF is ready! Print it at “Actual size” on letter paper.');
+      document.getElementById('print-tip').hidden = false;
       // Anonymous download count (GoatCounter). Sends only the lettering style, never form text.
       const style = readForm().style;
       if (window.goatcounter && window.goatcounter.count) {
@@ -421,6 +422,51 @@
       downloadBtn.disabled = false;
     }
   }
+
+  // ---------- problem reports ----------
+  // Sent through Web3Forms, which emails them to the site owner. Only the two
+  // fields typed here are sent; the access key is public by design.
+  const WEB3FORMS_KEY = '461f3b79-e8a1-497c-8c44-d5337f537195';
+  const helpForm = document.getElementById('help-form');
+  const helpStatus = document.getElementById('help-status');
+  const helpCount = document.getElementById('help-count');
+  helpForm.elements.message.addEventListener('input', () => {
+    helpCount.textContent = 200 - helpForm.elements.message.value.length;
+  });
+  helpForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = helpForm.querySelector('button');
+    const say = (msg, isError) => {
+      helpStatus.textContent = msg;
+      helpStatus.classList.toggle('error', !!isError);
+    };
+    if (helpForm.elements.botcheck.checked) return;
+    btn.disabled = true;
+    say('Sending…');
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: 'Certificate site problem: ' + helpForm.elements.problem.value,
+          from_name: 'Scout certificate site',
+          problem: helpForm.elements.problem.value,
+          message: helpForm.elements.message.value.slice(0, 200),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false) throw new Error(data.message || res.status);
+      helpForm.reset();
+      helpCount.textContent = '200';
+      say('Thanks! Got it. I’ll take a look.');
+    } catch (err) {
+      console.error(err);
+      say('Sorry, that didn’t send. Please try again in a bit.', true);
+    } finally {
+      btn.disabled = false;
+    }
+  });
 
   // ---------- wiring ----------
 

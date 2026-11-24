@@ -134,6 +134,7 @@
       <button type="button" id="clear-btn" class="btn ghost">Clear</button>
     </div>
     <p id="status" class="status" role="status" aria-live="polite">Loading lettering…</p>
+    <p id="print-tip" class="print-tip" hidden>Want it printed on nice heavy paper? Upload your PDF to <a href="https://www.office.fedex.com/default/certificates.html" target="_blank" rel="noopener" data-goatcounter-click="print-link-fedex" data-goatcounter-title="FedEx Office print link">FedEx Office’s certificate printing</a>, pick a cardstock, and pick it up the same day at a store near you.</p>
   </form>
 
   <section class="panel preview-panel" aria-label="Certificate preview">
@@ -149,10 +150,21 @@
   <p>Use it for an Eagle Scout court of honor, a rank advancement, the Arrow of Light, merit badges, a service project, or a great week at summer camp. It’s also a nice way to thank the Scoutmaster, den leader, committee member or parent who always shows up. Troops, packs, Venturing crews and Sea Scout ships are all welcome to use it.</p>
 </section>
 
+<section class="wrap">
+<div class="print-service">
+  <div>
+    <h2>No good printer? Have it printed nearby</h2>
+    <p>Upload your PDF to FedEx Office, pick a heavy cardstock, and pick it up the same day at a store near you.</p>
+    <p class="print-note">(I make no money from this link. I just want you to have access to a good quality certificate :)</p>
+  </div>
+  <a class="btn print-btn" href="https://www.office.fedex.com/default/certificates.html" target="_blank" rel="noopener" data-goatcounter-click="print-link-fedex" data-goatcounter-title="FedEx Office print link">Print it at FedEx Office</a>
+</div>
+</section>
+
 <section class="wrap info">
   <div class="info-col">
     <h2>Printing tips</h2>
-    <p>Fill in the form and watch the certificate change as you type. When you like it, hit Download PDF. It prints fine at home, but heavy cream or parchment card stock (65 to 110 lb) really makes the colors pop. Want your leaders to sign it by hand? Put their names and titles in the signature boxes, and they can sign right above the line at the ceremony.</p>
+    <p>Print at “Actual size” on letter paper. Heavy cream or parchment card stock (65 to 110 lb) really makes the colors pop. Signing by hand? Fill in the names and titles, and your leaders can sign right above the line.</p>
   </div>
   <div class="info-col">
     <h2>About the artwork</h2>
@@ -160,8 +172,30 @@
   </div>
   <div class="info-col">
     <h2>Your information stays with you</h2>
-    <p>Your certificate is made right in your web browser, so the names you type never leave your computer. The page remembers what you typed last, so you can come back and finish later, and the Clear button wipes it. I keep a simple count of visits and downloads, with no cookies and nothing personal, just so I know people are enjoying it.</p>
+    <p>Your certificate is made right in your web browser, so the names you type never leave your computer. The page remembers what you typed last, so you can come back and finish later, and the Clear button wipes it. I keep a simple count of visits and downloads, with no cookies and nothing personal, just so I know people are enjoying it. If you send me a problem report, only what you type in that little form is emailed to me.</p>
   </div>
+</section>
+
+<section class="wrap help">
+  <details id="help">
+    <summary>Something not working? Let me know</summary>
+    <form id="help-form" class="help-form" autocomplete="off">
+      <label>What went wrong?
+        <select name="problem" required>
+          <option value="">Pick one…</option>
+          <option>The PDF didn’t download</option>
+          <option>The preview looks wrong</option>
+          <option>Text doesn’t fit or looks off</option>
+          <option>Printing problem</option>
+          <option>Something else</option>
+        </select></label>
+      <label>A sentence or two <small>(<span id="help-count">200</span> characters left)</small>
+        <textarea name="message" rows="3" maxlength="200" required></textarea></label>
+      <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="btn primary small-btn">Send</button>
+      <p id="help-status" class="status" role="status" aria-live="polite"></p>
+    </form>
+  </details>
 </section>
 
 <footer class="site-footer">
